@@ -16,7 +16,8 @@ Follow responsive design best practices, optimising for the visible viewport on 
 Always specify individual individuals, do not import everything from a library
 Always use named exports, never default exports
 Always use functional components and React hooks, never class components
-Always use React's built-in state management, avoid using external state management libraries like Redux or MobX
+Prioritise using React's state management system
+If you need to do complicated state management between completely different components or routes, use Redux
 Always use React's built-in context API for managing global state
 Always use React's built-in lazy loading and Suspense for code splitting and lazy loading components
 Lazy load wherever possible to enhance performance
@@ -48,3 +49,6 @@ Use continuous deployment (CD) to automatically deploy the app to a staging envi
 Use linting tools like ESLint and Prettier to enforce code style and catch potential issues
 Use TypeScript's strict mode to catch potential issues and ensure type safety
 Use Storybook to document components and their usage
+Do not import _ from React, import specific hooks like useState, useEffect, and useRef as named imports
+Do not import _ from RadixThemes, import specific components like Button, Heading, Text, and TextField as named imports
+In fact, do not ever import \*, always do named imports instead
