@@ -13,8 +13,7 @@ Anticipate future changes in requirements and follow best practices to make the 
 The app should be highly performance optimised, all pages should fully load in less than 1 second on a 3G connection
 The app should be fully accessible and follow WCAG 2.1 AA standards, ideally AAA standards wherever possible
 Follow responsive design best practices, optimising for the visible viewport on mobile devices first
-Always specify individual individuals, do not import everything from a library
-Always use named exports, never default exports
+Always specify individual imports, do not import everything from a library
 Always use functional components and React hooks, never class components
 Prioritise using React's state management system
 If you need to do complicated state management between completely different components or routes, use Redux
