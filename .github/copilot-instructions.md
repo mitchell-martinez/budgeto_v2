@@ -2,7 +2,7 @@ Do not use Tailwind CSS in this repository
 Use React Router v7 in this repository
 Use TypeScript in this repository
 Use SCSS modules in this repository
-All code should adhere to React an TypeScript 2025 best practices
+All code should adhere to React and TypeScript 2025 best practices
 All code should adhere to SCSS best practices
 All code should adhere to React Router v7 best practices
 Think deeply about the problem before answering
@@ -48,6 +48,7 @@ Use continuous deployment (CD) to automatically deploy the app to a staging envi
 Use linting tools like ESLint and Prettier to enforce code style and catch potential issues
 Use TypeScript's strict mode to catch potential issues and ensure type safety
 Use Storybook to document components and their usage
-Do not import * from React, import specific hooks like useState, useEffect, and useRef as named imports
-Do not import * from RadixThemes, import specific components like Button, Heading, Text, and TextField as named imports
+Do not import _ from React, import specific hooks like useState, useEffect, and useRef as named imports
+Do not import _ from RadixThemes, import specific components like Button, Heading, Text, and TextField as named imports
 In fact, do not ever import \*, always do named imports instead
+Use arrow functions for defining React components, e.g. const MyComponent = () => { ... }, instead of function declarations or function expressions. There is no need to define the type as React.FC, as TypeScript can infer the types automatically. Do, however, create a type for the component props and use that to type the props parameter in the function when there are more than 2 props.
