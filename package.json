@@ -27,6 +27,7 @@
     "react-router": "^7.10.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@react-router/dev": "^7.10.1",
     "@storybook/addon-essentials": "^8.4.0",
     "@storybook/react-vite": "^8.4.0",

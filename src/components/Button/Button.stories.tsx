@@ -1,6 +1,6 @@
 import { type Meta, type StoryObj } from '@storybook/react';
 
-import { Button } from './Button';
+import Button from '@components/Button';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -10,7 +10,6 @@ const meta: Meta<typeof Button> = {
   },
   argTypes: {
     label: { control: 'text' },
-    disabled: { control: 'boolean' },
   },
 };
 
@@ -27,6 +26,5 @@ export const Primary: Story = {
 export const Disabled: Story = {
   args: {
     label: 'Disabled',
-    disabled: true,
   },
 };

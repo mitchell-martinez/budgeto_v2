@@ -10,7 +10,7 @@
   "compilerOptions": {
     "target": "esnext",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "types": ["node", "vite/client", "jest"],
+    "types": ["node", "vite/client", "vitest", "@testing-library/jest-dom"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
