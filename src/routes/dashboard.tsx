@@ -52,7 +52,6 @@ export const Dashboard = () => {
           className={`${styles.arrow} ${styles.left} ${activeIndex === 0 ? styles.arrowHidden : ''}`}
           onClick={() => scrollToIndex(0)}
           aria-label='Show spent'
-          aria-hidden={activeIndex === 0}
           tabIndex={activeIndex === 0 ? -1 : 0}
         >
           &lt;
@@ -62,6 +61,10 @@ export const Dashboard = () => {
           aria-label='Swipe horizontally to view spent and leftover'
           ref={swiperRef}
           onScroll={handleScroll}
+          role='button'
+          onClick={() => console.log('Clicked')}
+          tabIndex={0}
+          aria-live='polite'
         >
           <section className={styles.swipeCol} aria-label='Spent'>
             <Donut value={spent} total={income} color='#f87171' label='Spent' />
@@ -80,7 +83,6 @@ export const Dashboard = () => {
           className={`${styles.arrow} ${styles.right} ${activeIndex === 1 ? styles.arrowHidden : ''}`}
           onClick={() => scrollToIndex(1)}
           aria-label='Show leftover'
-          aria-hidden={activeIndex === 1}
           tabIndex={activeIndex === 1 ? -1 : 0}
         >
           &gt;
@@ -101,9 +103,6 @@ export const Dashboard = () => {
         >
           Add Expenditure
         </button>
-      </div>
-      <div className={styles.swipeHint} aria-hidden='true'>
-        Swipe left/right to see spent/leftover
       </div>
     </main>
   );

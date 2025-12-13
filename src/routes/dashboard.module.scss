@@ -4,11 +4,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100vh;
+  min-height: 100dvh;
   background: linear-gradient(135deg, #18181b 0%, #23232b 100%);
-  padding: 2.5rem 1rem 1.5rem 1rem;
+  padding: 2.5rem 0rem 2.5rem;
   /* Control tighter swiper width */
-  --swipe-width: min(400px, 80vw);
+  --swipe-width: min(500px, 80vw); /* +25% */
 }
 
 .swipeWrap {
@@ -16,9 +16,9 @@
   align-items: center; /* center arrows to swiper's midpoint */
   justify-content: center;
   width: 100%;
-  max-width: calc(var(--swipe-width) + 80px); /* 40px arrow each side */
+  max-width: calc(var(--swipe-width) + 100px); /* 50px arrow each side */
   margin: 0 auto;
-  height: calc(100vh - 220px); /* match swiper height for vertical alignment */
+  height: calc(100dvh - 275px); /* +25% vertical spacing */
   gap: 0; /* flush arrows to swiper */
 }
 
@@ -27,7 +27,7 @@
   flex-direction: column;
   gap: 0.8rem;
   width: 100%;
-  max-width: calc(var(--swipe-width) + 80px);
+  max-width: calc(var(--swipe-width) + 100px);
   margin: 0 auto 2.5rem auto;
   justify-content: center;
   align-items: center;
@@ -36,12 +36,12 @@
 .actionBtn {
   background: white;
   color: black;
-  font-size: 1.1rem;
+  font-size: 1.375rem; /* +25% */
   font-weight: 600;
   border: none;
   border-radius: 0.5rem;
-  padding: 0.9rem 2.2rem; /* keep original padding */
-  width: 270px; /* fixed equal width for both buttons */
+  padding: 1.125rem 2.75rem; /* +25% */
+  min-width: 19rem; /* +25% fixed equal width for both buttons */
   cursor: pointer;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
   transition:
@@ -71,7 +71,7 @@
   flex-direction: row;
   width: var(--swipe-width);
   max-width: var(--swipe-width);
-  height: calc(100vh - 220px);
+  height: calc(100dvh - 275px);
   overflow-x: scroll;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
@@ -91,7 +91,6 @@
   align-items: center;
   justify-content: center;
   scroll-snap-align: start;
-  padding: 1rem 0;
 }
 
 /* Arrows as flex siblings, flush with swiper */
@@ -99,14 +98,16 @@
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  width: 40px;
-  height: 40px;
+  width: 50px; /* +25% */
+  height: 50px; /* +25% */
   border-radius: 50%;
   display: none; /* default hidden; shown on desktop */
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1.375rem; /* +25% */
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-28px);
+
   transition:
     background 0.2s,
     transform 0.2s,
@@ -114,7 +115,7 @@
 }
 .arrow:hover {
   background: rgba(255, 255, 255, 0.16);
-  transform: translateY(-1px);
+  transform: translateY(-28px);
 }
 .left {
   margin-right: 0;

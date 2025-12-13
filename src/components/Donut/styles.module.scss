@@ -4,18 +4,33 @@
   align-items: center;
   justify-content: center;
 }
-/* Mobile defaults (base TSX uses mobile numbers): font 3.2rem, stroke 16 */
-.donutValue {
-  font-size: 3.2rem;
+
+/* Center the overlay value heading on top of the SVG */
+.svgWrap {
+  position: relative;
+  display: inline-block;
 }
+.valueHeading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  color: #fff;
+  font-weight: 700;
+  font-size: 4rem; /* +25% */
+  line-height: 1;
+  text-align: center;
+}
+
 .ring {
-  stroke-width: 16;
+  stroke-width: 20; /* +25% */
 }
 
 .donutLabel {
-  margin-top: 1.2rem;
+  margin-top: 1.5rem; /* +25% */
   color: #a1a1aa;
-  font-size: 1.1rem;
+  font-size: 1.375rem; /* +25% */
   letter-spacing: 0.01em;
   text-align: center;
 }
