@@ -1,0 +1,166 @@
+/* Rebuilt cleanly after a corrupted edit */
+.dashboard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	min-height: 100dvh;
+	background: linear-gradient(135deg, #18181b 0%, #23232b 100%);
+	padding: 2.5rem 1rem 1.5rem 1rem;
+	/* Control tighter swiper width */
+	--swipe-width: min(400px, 80vw);
+}
+
+.swipeWrap {
+	display: flex;
+	align-items: center; /* center arrows to swiper's midpoint */
+	justify-content: center;
+	width: 100%;
+	max-width: calc(var(--swipe-width) + 80px); /* 40px arrow each side */
+	margin: 0 auto;
+	height: calc(100dvh - 220px); /* match swiper height for vertical alignment */
+	gap: 0; /* flush arrows to swiper */
+}
+
+.donutContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+/* Mobile defaults (base TSX uses mobile numbers): font 3.2rem, stroke 16 */
+.donutValue { font-size: 3.2rem; }
+.ring { stroke-width: 16; }
+
+/* Desktop: scale down to match previous 82/14 sizing */
+@media (min-width: 768px) {
+	.donutContainer svg { transform: scale(0.683); } /* 82/120 */
+	.donutValue { font-size: 2.2rem; }
+	.ring { stroke-width: 14; }
+}
+
+.donutLabel {
+	margin-top: 1.2rem;
+	color: #a1a1aa;
+	font-size: 1.1rem;
+	letter-spacing: 0.01em;
+	text-align: center;
+}
+
+.buttonRow {
+	display: flex;
+	flex-direction: column;
+	gap: 0.8rem;
+	width: 100%;
+	max-width: calc(var(--swipe-width) + 80px);
+	margin: 0 auto 2.5rem auto;
+	justify-content: center;
+	align-items: center;
+}
+
+.actionBtn {
+	background: white;
+	color: black;
+	font-size: 1.1rem;
+	font-weight: 600;
+	border: none;
+	border-radius: 0.5rem;
+	padding: 0.9rem 2.2rem; /* keep original padding */
+	width: 270px; /* fixed equal width for both buttons */
+	cursor: pointer;
+	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+	transition:
+		background 0.2s,
+		box-shadow 0.2s;
+}
+.actionBtn:focus {
+	outline: 2px solid #60a5fa;
+	outline-offset: 2px;
+}
+.actionBtn:hover {
+	background: rgb(200, 200, 200);
+	box-shadow: 0 4px 32px rgba(0, 0, 0, 0.14);
+}
+
+.swipeHint {
+	color: #a1a1aa;
+	font-size: 1rem;
+	margin-top: 1.5rem;
+	text-align: center;
+	user-select: none;
+}
+
+/* CSS-only swiper */
+.swiper {
+	display: flex;
+	flex-direction: row;
+	width: var(--swipe-width);
+	max-width: var(--swipe-width);
+	height: calc(100dvh - 220px);
+	overflow-x: scroll;
+	scroll-behavior: smooth;
+	scroll-snap-type: x mandatory;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+	gap: 0;
+	align-items: center;
+}
+.swiper::-webkit-scrollbar {
+	display: none;
+}
+
+.swipeCol {
+	flex: 0 0 100%;
+	max-width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	scroll-snap-align: start;
+	padding: 1rem 0;
+}
+
+/* Arrows as flex siblings, flush with swiper */
+.arrow {
+	background: rgba(255, 255, 255, 0.08);
+	color: #fff;
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	display: none; /* default hidden; shown on desktop */
+	align-items: center;
+	justify-content: center;
+	font-size: 1.1rem;
+	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+	transition:
+		background 0.2s,
+		transform 0.2s,
+		opacity 0.15s ease-in-out;
+}
+.arrow:hover {
+	background: rgba(255, 255, 255, 0.16);
+	transform: translateY(-1px);
+}
+.left {
+	margin-right: 0;
+}
+.right {
+	margin-left: 0;
+}
+
+/* Hidden state: smooth fade but preserve layout */
+.arrowHidden {
+	opacity: 0;
+	pointer-events: none;
+}
+
+@media (max-width: 767px) {
+	.arrow {
+		display: none;
+	}
+}
+@media (min-width: 768px) {
+	.arrow {
+		display: flex;
+	}
+}

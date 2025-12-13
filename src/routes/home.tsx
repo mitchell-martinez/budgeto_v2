@@ -4,7 +4,7 @@ import styles from './home.module.scss';
 
 export function meta() {
 	return [
-		{ title: 'Budgeto – Modern Budgeting for Techies' },
+		{ title: 'Budgeto - Modern Budgeting for Techies' },
 		{
 			name: 'description',
 			content:

@@ -48,6 +48,6 @@ Use continuous deployment (CD) to automatically deploy the app to a staging envi
 Use linting tools like ESLint and Prettier to enforce code style and catch potential issues
 Use TypeScript's strict mode to catch potential issues and ensure type safety
 Use Storybook to document components and their usage
-Do not import _ from React, import specific hooks like useState, useEffect, and useRef as named imports
-Do not import _ from RadixThemes, import specific components like Button, Heading, Text, and TextField as named imports
+Do not import * from React, import specific hooks like useState, useEffect, and useRef as named imports
+Do not import * from RadixThemes, import specific components like Button, Heading, Text, and TextField as named imports
 In fact, do not ever import \*, always do named imports instead

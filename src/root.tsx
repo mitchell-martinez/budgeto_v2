@@ -10,8 +10,8 @@ import {
 import type { Route } from './+types/root';
 
 /* Styling */
-import '@radix-ui/themes/styles.css';
 import { Theme } from '@radix-ui/themes';
+import '@radix-ui/themes/styles.css';
 import './app.css';
 
 export const links: Route.LinksFunction = () => [
