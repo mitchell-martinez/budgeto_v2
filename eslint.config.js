@@ -1,3 +1,5 @@
+import { defineConfig } from 'eslint/config';
+
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
@@ -7,7 +9,6 @@ import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import sonarjsPlugin from 'eslint-plugin-sonarjs';
-import { defineConfig } from 'eslint/config';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -21,6 +22,11 @@ const compat = new FlatCompat({
 export default defineConfig([
   js.configs.recommended,
 
+  // Global ignores (ensure generated router types are skipped)
+  {
+    ignores: ['.react-router/**', '**/.react-router/**', 'dist/**'],
+  },
+
   // Compatibility with classic "extends"
   ...compat.extends(
     'plugin:@typescript-eslint/eslint-recommended',
@@ -29,7 +35,7 @@ export default defineConfig([
   ),
 
   {
-    ignores: ['dist/*'],
+    ignores: ['dist/**'],
 
     languageOptions: {
       parser: tsParser,
@@ -96,6 +102,7 @@ export default defineConfig([
         {
           groups: [
             ['^\\u0000'], // side-effect imports
+            ['^eslint/config$'], // prioritize eslint config before other packages
             [''], // general packages
             ['^@(components|models|helpers|utils)/.*$'], // aliases
             ['^\\.'], // relative imports
@@ -129,18 +136,19 @@ export default defineConfig([
   // Override: sonarjs rules (excluding tests/stories)
   {
     files: ['**/*.{js,ts,tsx}'],
-    ignores: ['**/__tests__/**/*', '**/*.stories.*'],
+    ignores: [
+      '**/__tests__/**/*',
+      '**/*.stories.*',
+      '.react-router/**',
+      '**/.react-router/**',
+    ],
+    plugins: {
+      sonarjs: sonarjsPlugin,
+    },
     rules: {
       'sonarjs/no-nested-template-literals': 'warn',
       'sonarjs/cognitive-complexity': ['warn', 17],
     },
   },
 
-  // Override: generated React Router types use TypeScript namespaces
-  {
-    files: ['.react-router/types/**/*.ts'],
-    rules: {
-      '@typescript-eslint/no-namespace': 'off',
-    },
-  },
 ]);
