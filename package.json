@@ -19,25 +19,23 @@
   },
   "dependencies": {
     "@radix-ui/themes": "^3.2.1",
-    "@react-router/node": "^7.9.2",
-    "@react-router/serve": "^7.9.2",
+    "@react-router/node": "^7.10.1",
+    "@react-router/serve": "^7.10.1",
     "isbot": "^5.1.31",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-router": "^7.9.2"
+    "react-router": "^7.10.1"
   },
   "devDependencies": {
-    "@react-router/dev": "^7.9.2",
-    "@types/node": "^22",
-    "@types/react": "^19.1.13",
-    "@types/react-dom": "^19.1.9",
+    "@react-router/dev": "^7.10.1",
     "@storybook/addon-essentials": "^8.4.0",
     "@storybook/react-vite": "^8.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
-    "happy-dom": "^14.12.3",
-    "playwright": "^1.48.0",
-    "vitest": "^2.1.5",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
     "eslint": "^9.39.2",
@@ -49,9 +47,12 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-sonarjs": "^3.0.4",
+    "happy-dom": "^14.12.3",
+    "playwright": "^1.48.0",
     "sass": "^1.94.0",
     "typescript": "^5.9.2",
-    "vite": "^7.1.7",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite": "^7.2.7",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^2.1.5"
   }
 }
