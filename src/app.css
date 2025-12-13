@@ -1,22 +1,22 @@
 html,
 body {
-	background-color: #fff;
-	font-family:
-		'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-		'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-	color-scheme: light;
-	overflow: auto;
-	overscroll-behavior: contain;
-	height: 100dvh;
-	width: 100vw;
-	margin: 0;
-	padding: 0;
+  background-color: #fff;
+  font-family:
+    'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  color-scheme: light;
+  overflow: auto;
+  overscroll-behavior: contain;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
 }
 
 @media (prefers-color-scheme: dark) {
-	html,
-	body {
-		background-color: #16161a;
-		color-scheme: dark;
-	}
+  html,
+  body {
+    background-color: #16161a;
+    color-scheme: dark;
+  }
 }

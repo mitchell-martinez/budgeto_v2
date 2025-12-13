@@ -4,6 +4,7 @@ import Donut from '@components/Donut';
 
 import styles from './dashboard.module.scss';
 
+/* Swap this with real data later */
 const TOTAL_BUDGET = 2000;
 const INITIAL_SPENT = 1200;
 
@@ -25,20 +26,20 @@ export const Dashboard = () => {
   const swiperRef = useRef<HTMLDivElement | null>(null);
 
   const handleScroll = () => {
-    const el = swiperRef.current;
-    if (!el) {
+    const element = swiperRef.current;
+    if (!element) {
       return;
     }
-    const idx = Math.round(el.scrollLeft / el.clientWidth);
-    setActiveIndex(Math.max(0, Math.min(1, idx)));
+    const index = Math.round(element.scrollLeft / element.clientWidth);
+    setActiveIndex(Math.max(0, Math.min(1, index)));
   };
 
-  const scrollToIndex = (idx: number) => {
-    const el = swiperRef.current;
-    if (!el) {
+  const scrollToIndex = (index: number) => {
+    const element = swiperRef.current;
+    if (!element) {
       return;
     }
-    el.scrollTo({ left: idx * el.clientWidth, behavior: 'smooth' });
+    element.scrollTo({ left: index * element.clientWidth, behavior: 'smooth' });
   };
 
   const leftover = Math.max(0, income - spent);
