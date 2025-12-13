@@ -1,0 +1,9 @@
+.donutContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+/* Mobile defaults (base TSX uses mobile numbers): font 3.2rem, stroke 16 */
+.donutValue { font-size: 3.2rem; }
+.ring { stroke-width: 16; }

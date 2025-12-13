@@ -22,16 +22,6 @@
 	gap: 0; /* flush arrows to swiper */
 }
 
-.donutContainer {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-/* Mobile defaults (base TSX uses mobile numbers): font 3.2rem, stroke 16 */
-.donutValue { font-size: 3.2rem; }
-.ring { stroke-width: 16; }
-
 /* Desktop: scale down to match previous 82/14 sizing */
 @media (min-width: 768px) {
 	.donutContainer svg { transform: scale(0.683); } /* 82/120 */
