@@ -1,14 +1,17 @@
-/* Rebuilt cleanly after a corrupted edit */
 .dashboard {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center; /* center dashboard content vertically */
   min-height: 100dvh;
   background: linear-gradient(135deg, #18181b 0%, #23232b 100%);
   padding: 2.5rem 0rem 2.5rem;
-  /* Control tighter swiper width */
-  --swipe-width: min(500px, 80vw); /* +25% */
+  --swipe-width: min(500px, 80vw); /* Control tighter swiper width */
+}
+
+h1 {
+  margin: 0;
+  margin-bottom: 4rem;
 }
 
 .swipeWrap {
@@ -18,7 +21,7 @@
   width: 100%;
   max-width: calc(var(--swipe-width) + 100px); /* 50px arrow each side */
   margin: 0 auto;
-  height: calc(100dvh - 275px); /* +25% vertical spacing */
+  height: auto;
   gap: 0; /* flush arrows to swiper */
 }
 
@@ -28,7 +31,7 @@
   gap: 0.8rem;
   width: 100%;
   max-width: calc(var(--swipe-width) + 100px);
-  margin: 0 auto 2.5rem auto;
+  margin: 4rem auto 2.5rem auto;
   justify-content: center;
   align-items: center;
 }
@@ -36,12 +39,12 @@
 .actionBtn {
   background: white;
   color: black;
-  font-size: 1.375rem; /* +25% */
+  font-size: 1.375rem;
   font-weight: 600;
   border: none;
   border-radius: 0.5rem;
-  padding: 1.125rem 2.75rem; /* +25% */
-  min-width: 19rem; /* +25% fixed equal width for both buttons */
+  padding: 1.125rem 2.75rem;
+  min-width: 19rem;
   cursor: pointer;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
   transition:
@@ -65,13 +68,14 @@
   user-select: none;
 }
 
-/* CSS-only swiper */
+/* CSS-only swiper - JS bad */
 .swiper {
   display: flex;
   flex-direction: row;
   width: var(--swipe-width);
+  margin: 0 auto;
   max-width: var(--swipe-width);
-  height: calc(100dvh - 275px);
+  height: auto;
   overflow-x: scroll;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
@@ -98,15 +102,17 @@
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  width: 50px; /* +25% */
-  height: 50px; /* +25% */
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  display: none; /* default hidden; shown on desktop */
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.375rem; /* +25% */
+  font-size: 1.375rem;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
-  transform: translateY(-28px);
+  transform: translateY(
+    -28px
+  ); /* Align with the middle of the donut component */
 
   transition:
     background 0.2s,
@@ -130,13 +136,9 @@
   pointer-events: none;
 }
 
+/* Make mobile-first at some point */
 @media (max-width: 767px) {
   .arrow {
-    display: none;
-  }
-}
-@media (min-width: 768px) {
-  .arrow {
-    display: flex;
+    display: none; /* Hide arrows on mobile */
   }
 }
