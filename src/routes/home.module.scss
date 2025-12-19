@@ -47,20 +47,82 @@
   color: #4ade80;
 }
 .marketingRoot {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #18181b 0%, #23232b 100%);
-  color: #f3f3f3;
+  align-items: stretch;
+  position: relative;
+  overflow: clip;
+  background: #0b0b0f; /* simpler, deeper backdrop for contrast */
+  color: #e7e7ea;
   font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
   transition:
     background 0.3s,
     color 0.3s;
+  /* theme tokens */
+  --aurora-a: #60a5fa;
+  --aurora-b: #4ade80;
+  --aurora-c: #a78bfa;
+}
+
+/* Constrain readable line length and center content */
+.container {
+  width: min(72ch, 92vw);
+  margin: 0 auto;
+  padding: 3rem 0 2rem 0;
+  position: relative; /* anchor for absolute theme toggle */
+}
+
+/* Animated aurora background (pure CSS, GPU-friendly) */
+.marketingRoot::before,
+.marketingRoot::after {
+  content: '';
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 70vh;
+  filter: blur(60px);
+  opacity: 0.35;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.marketingRoot::before {
+  background:
+    radial-gradient(50% 60% at 30% 40%, var(--aurora-a) 0%, transparent 60%),
+    radial-gradient(60% 50% at 70% 50%, var(--aurora-b) 0%, transparent 60%);
+  animation: float1 18s ease-in-out infinite alternate;
+}
+.marketingRoot::after {
+  background:
+    radial-gradient(45% 55% at 40% 50%, var(--aurora-c) 0%, transparent 60%),
+    radial-gradient(55% 45% at 60% 40%, var(--aurora-a) 0%, transparent 60%);
+  transform: translateY(10%);
+  animation: float2 22s ease-in-out infinite alternate;
+}
+
+@keyframes float1 {
+  0% {
+    transform: translate3d(-2%, -2%, 0) scale(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate3d(2%, 3%, 0) scale(1.05);
+    opacity: 0.45;
+  }
+}
+@keyframes float2 {
+  0% {
+    transform: translate3d(3%, 1%, 0) scale(1);
+    opacity: 0.32;
+  }
+  100% {
+    transform: translate3d(-3%, -2%, 0) scale(1.07);
+    opacity: 0.42;
+  }
 }
 
 :global(.light) .marketingRoot {
-  background: linear-gradient(135deg, #f3f3f3 0%, #e0e7ff 100%);
-  color: #18181b;
+  background: #fafafa;
+  color: #111114;
 }
 
 .hero {
@@ -68,34 +130,101 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 1rem 2rem 1rem;
+  padding: 3.5rem 0 1.5rem 0;
   text-align: center;
 }
 
+/* Theme toggle button */
+.themeToggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  cursor: pointer;
+  backdrop-filter: saturate(120%) blur(6px);
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.15s;
+}
+.themeToggle:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.themeToggle:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 3px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #c9f8d1;
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: 0.9rem;
+}
+
 .logo {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 1.5rem;
+  width: 88px;
+  height: 88px;
+  margin-bottom: 1.25rem;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4ade80 0%, #60a5fa 100%);
+  background: radial-gradient(60% 60% at 30% 30%, #60a5fa 0%, #4ade80 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.35),
+    0 0 64px rgba(76, 217, 100, 0.18);
 }
 
 .title {
-  font-size: 2.8rem;
-  font-weight: 800;
-  letter-spacing: -1px;
-  margin-bottom: 1rem;
+  font-size: clamp(2.6rem, 7.5vw, 4.25rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(180deg, #ffffff 0%, #c8e9d1 60%, #9cd6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .subtitle {
-  font-size: 1.3rem;
+  font-size: clamp(1.05rem, 2.6vw, 1.35rem);
   font-weight: 500;
-  margin-bottom: 2.5rem;
-  color: #a1a1aa;
+  line-height: 1.65;
+  margin: 0 auto 2.25rem auto;
+  color: #b1b1b9;
+  max-width: 62ch;
+}
+
+/* Subtle animated underline for links */
+.container a:not(.noUnderline) {
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 2px;
+  transition: background-size 0.2s ease;
+}
+.container a:not(.noUnderline):hover,
+.container a:not(.noUnderline):focus-visible {
+  background-size: 100% 2px;
 }
 
 :global(.light) .subtitle {
@@ -103,36 +232,39 @@
 }
 
 .features {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
-  margin: 2rem 0 3rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0 2.5rem 0;
 }
 
 .feature {
-  background: #23232b;
-  color: #f3f3f3;
-  border-radius: 1.5rem;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
-  padding: 2rem 1.5rem;
-  max-width: 320px;
-  flex: 1 1 220px;
+  position: relative;
+  background: rgba(19, 19, 26, 0.7);
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.25rem 1.25rem 1.3rem 1.25rem;
   text-align: left;
+  backdrop-filter: saturate(120%) blur(8px);
   transition:
+    border-color 0.2s,
+    background 0.2s,
     box-shadow 0.2s,
-    background 0.3s,
-    color 0.3s;
+    transform 0.2s;
 }
 
 .feature:hover {
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18);
-  background: #18181b;
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(23, 23, 31, 0.85);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
 }
 
 :global(.light) .feature {
-  background: #fff;
-  color: #18181b;
+  background: #ffffff;
+  color: #0e0e12;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .cta {
@@ -141,27 +273,47 @@
 }
 
 .notifyMe {
-  background: white;
-  color: black;
-  font-size: 1.25rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 1rem 2.5rem;
-  width: 300px;
-  height: 60px;
-  margin: auto;
-  margin-bottom: 30px;
+  display: block;
+  background: #ffffff;
+  color: #0e0e12;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  padding: 0.9rem 2rem;
+  width: min(300px, 88vw);
+  height: 56px;
+  margin: 0 auto 2rem auto;
   cursor: pointer;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.25);
   transition:
-    background 0.3s,
-    box-shadow 0.2s;
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.15s;
 }
 
 .notifyMe:hover {
-  background: rgb(178, 178, 178);
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18);
+  background: #efefef;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
+.notifyMe:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 3px;
+}
+
+/* Reduce motion for users that prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .marketingRoot,
+  .feature,
+  .notifyMe {
+    transition: none;
+  }
+  .marketingRoot::before,
+  .marketingRoot::after {
+    animation: none;
+  }
 }
 
 .srOnly {
