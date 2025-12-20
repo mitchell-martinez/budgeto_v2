@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 
+import AmountModal from '@components/AmountModal';
 import Donut from '@components/Donut';
 
 import styles from './dashboard.module.scss';
@@ -23,6 +24,8 @@ export const Dashboard = () => {
   const [spent, setSpent] = useState(INITIAL_SPENT);
   const [income, setIncome] = useState(TOTAL_BUDGET);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [openIncome, setOpenIncome] = useState(false);
+  const [openExpenditure, setOpenExpenditure] = useState(false);
   const swiperRef = useRef<HTMLDivElement | null>(null);
 
   const handleScroll = () => {
@@ -46,6 +49,26 @@ export const Dashboard = () => {
 
   return (
     <main className={styles.dashboard}>
+      <AmountModal
+        title='Add Income'
+        ctaText='Add Income'
+        open={openIncome}
+        onClose={() => setOpenIncome(false)}
+        onSubmit={({ amount }) => {
+          setIncome((i) => i + amount);
+          setOpenIncome(false);
+        }}
+      />
+      <AmountModal
+        title='Add Expenditure'
+        ctaText='Add Expenditure'
+        open={openExpenditure}
+        onClose={() => setOpenExpenditure(false)}
+        onSubmit={({ amount }) => {
+          setSpent((s) => Math.max(0, s + amount));
+          setOpenExpenditure(false);
+        }}
+      />
       <div className={styles.swipeWrap} aria-label='Budget swiper controls'>
         <button
           type='button'
@@ -91,14 +114,14 @@ export const Dashboard = () => {
       <div className={styles.buttonRow}>
         <button
           className={styles.actionBtn}
-          onClick={() => setIncome((i) => i + 100)}
+          onClick={() => setOpenIncome(true)}
           aria-label='Add income'
         >
           Add Income
         </button>
         <button
           className={styles.actionBtn}
-          onClick={() => setSpent((s) => Math.max(0, s + 50))}
+          onClick={() => setOpenExpenditure(true)}
           aria-label='Add expenditure'
         >
           Add Expenditure

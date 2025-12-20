@@ -3,7 +3,6 @@ import '@radix-ui/themes/styles.css';
 import './app.css';
 
 /* Styling */
-import { Theme } from '@radix-ui/themes';
 import {
   isRouteErrorResponse,
   Links,
@@ -12,6 +11,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from 'react-router';
+import { ThemeProvider } from './context/ThemeProvider';
 
 import type { Route } from './+types/root';
 
@@ -48,9 +48,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <Theme>
+    <ThemeProvider>
       <Outlet />
-    </Theme>
+    </ThemeProvider>
   );
 }
 
