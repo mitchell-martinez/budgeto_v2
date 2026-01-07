@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 
 import AmountModal from '@components/AmountModal';
+import Button from '@components/Button';
 import Donut from '@components/Donut';
 
 import styles from './dashboard.module.scss';
@@ -70,15 +71,16 @@ export const Dashboard = () => {
         }}
       />
       <div className={styles.swipeWrap} aria-label='Budget swiper controls'>
-        <button
-          type='button'
+        <Button
+          variant='icon'
+          size='sm'
           className={`${styles.arrow} ${styles.left} ${activeIndex === 0 ? styles.arrowHidden : ''}`}
           onClick={() => scrollToIndex(0)}
           aria-label='Show spent'
           tabIndex={activeIndex === 0 ? -1 : 0}
         >
           &lt;
-        </button>
+        </Button>
         <div
           className={styles.swiper}
           aria-label='Swipe horizontally to view spent and leftover'
@@ -101,31 +103,32 @@ export const Dashboard = () => {
             />
           </section>
         </div>
-        <button
-          type='button'
+        <Button
+          variant='icon'
+          size='sm'
           className={`${styles.arrow} ${styles.right} ${activeIndex === 1 ? styles.arrowHidden : ''}`}
           onClick={() => scrollToIndex(1)}
           aria-label='Show leftover'
           tabIndex={activeIndex === 1 ? -1 : 0}
         >
           &gt;
-        </button>
+        </Button>
       </div>
       <div className={styles.buttonRow}>
-        <button
+        <Button
           className={styles.actionBtn}
           onClick={() => setOpenIncome(true)}
           aria-label='Add income'
         >
           Add Income
-        </button>
-        <button
+        </Button>
+        <Button
           className={styles.actionBtn}
           onClick={() => setOpenExpenditure(true)}
           aria-label='Add expenditure'
         >
           Add Expenditure
-        </button>
+        </Button>
       </div>
     </main>
   );

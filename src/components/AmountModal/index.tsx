@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
+import Button from '@components/Button';
+
 import styles from './styles.module.scss';
 
 export type AmountModalData = {
@@ -125,14 +127,15 @@ const AmountModal = ({
       aria-labelledby={headingId}
     >
       <div className={styles.modal} ref={dialogRef}>
-        <button
+        <Button
+          variant='icon'
+          size='sm'
           className={styles.closeBtn}
-          type='button'
-          aria-label='Close'
+          aria-label='Close modal'
           onClick={onClose}
         >
           &times;
-        </button>
+        </Button>
         <h2 id={headingId} className={styles.title}>
           {title}
         </h2>
@@ -172,13 +175,15 @@ const AmountModal = ({
             onChange={(e) => setDescription(e.target.value)}
           />
 
-          <button
+          <Button
             className={styles.cta}
             type='submit'
             disabled={!!validate(amount)}
+            fullWidth
+            size='lg'
           >
             {ctaText}
-          </button>
+          </Button>
         </form>
       </div>
       <button

@@ -1,0 +1,99 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 0.95rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #ffffff;
+  color: #0e0e12;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  appearance: none;
+}
+
+.button:focus {
+  outline: 2px solid #ffffff; /* dark mode: white ring */
+  outline-offset: 2px;
+}
+.button:focus-visible {
+  outline: 2px solid #ffffff; /* dark mode: white ring */
+  outline-offset: 2px;
+}
+
+/* Light mode variant (global theme class provided by ThemeProvider) */
+:global(.light) .button {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #111114;
+  color: #ffffff;
+}
+
+:global(.light) .button:focus {
+  outline: 2px solid #000000; /* light mode: black ring */
+  outline-offset: 2px;
+}
+
+:global(.light) .button:focus-visible {
+  outline: 2px solid #000000; /* light mode: black ring */
+  outline-offset: 2px;
+}
+
+/* Sizes */
+.size_sm {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+}
+.size_md {
+  padding: 0.65rem 0.95rem;
+  font-size: 1rem;
+}
+.size_lg {
+  padding: 0.85rem 1.1rem;
+  font-size: 1.05rem;
+}
+
+/* Variants */
+.primary {
+  /* Base styles already applied via .button */
+  /* Add subtle elevation to primary */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+.secondary {
+  opacity: 0.9;
+}
+.ghost {
+  background: transparent;
+  border-color: transparent;
+}
+.icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: inherit;
+}
+:global(.light) .icon {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.loading {
+  cursor: progress;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
