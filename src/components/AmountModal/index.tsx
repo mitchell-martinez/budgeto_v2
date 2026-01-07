@@ -44,7 +44,6 @@ const AmountModal = ({
     }
   }, [open, initialAmount, initialDescription]);
 
-  // Focus trap + ESC to close
   useEffect(() => {
     if (!open) {
       return;
@@ -79,10 +78,6 @@ const AmountModal = ({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [open, onClose]);
-
-  if (!open) {
-    return null;
-  }
 
   const headingId = 'amount-modal-heading';
   const errorId = 'amount-error';
