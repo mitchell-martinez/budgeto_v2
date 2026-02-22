@@ -55,9 +55,11 @@ export const Dashboard = () => {
         ctaText='Add Income'
         open={openIncome}
         onClose={() => setOpenIncome(false)}
-        onSubmit={({ amount }) => {
+        onSubmit={({ amount, mode }) => {
           setIncome((i) => i + amount);
-          setOpenIncome(false);
+          if (mode === 'single') {
+            setOpenIncome(false);
+          }
         }}
       />
       <AmountModal
@@ -65,9 +67,11 @@ export const Dashboard = () => {
         ctaText='Add Expenditure'
         open={openExpenditure}
         onClose={() => setOpenExpenditure(false)}
-        onSubmit={({ amount }) => {
+        onSubmit={({ amount, mode }) => {
           setSpent((s) => Math.max(0, s + amount));
-          setOpenExpenditure(false);
+          if (mode === 'single') {
+            setOpenExpenditure(false);
+          }
         }}
       />
       <div className={styles.swipeWrap} aria-label='Budget swiper controls'>

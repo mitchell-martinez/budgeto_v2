@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import type { ComponentProps } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
-import AmountModal from '../src/components/AmountModal';
+import AmountModal from '@components/AmountModal';
 
 describe('AmountModal', () => {
   const setup = (
@@ -63,7 +63,7 @@ describe('AmountModal', () => {
     const { onSubmit } = setup();
 
     // Force submission even while disabled.
-    fireEvent.submit(screen.getByRole('form'));
+    fireEvent.submit(document.querySelector('form') as HTMLFormElement);
 
     expect(onSubmit).not.toHaveBeenCalled();
 
@@ -77,10 +77,14 @@ describe('AmountModal', () => {
     const { onSubmit } = setup();
     const amountInput = screen.getByLabelText('Amount', { selector: 'input' });
 
-    // Some DOMs coerce invalid input for type="number"; using a clearly invalid string still
-    // exercises our parseFloat/Number.isFinite guard in a stable way.
-    fireEvent.change(amountInput, { target: { value: 'abc' } });
-    fireEvent.submit(screen.getByRole('form'));
+    // Some DOMs (happy-dom included) coerce invalid input for type="number" to an empty string.
+    // Force the raw value so the component's parseFloat/Number.isFinite guard is exercised.
+    Object.defineProperty(amountInput, 'value', {
+      value: 'abc',
+      writable: true,
+    });
+    fireEvent.change(amountInput);
+    fireEvent.submit(document.querySelector('form') as HTMLFormElement);
 
     expect(onSubmit).not.toHaveBeenCalled();
     expect(screen.getByText(/enter a valid number/i)).toBeVisible();
@@ -91,7 +95,7 @@ describe('AmountModal', () => {
     const amountInput = screen.getByLabelText('Amount', { selector: 'input' });
 
     fireEvent.change(amountInput, { target: { value: '0' } });
-    fireEvent.submit(screen.getByRole('form'));
+    fireEvent.submit(document.querySelector('form') as HTMLFormElement);
 
     expect(onSubmit).not.toHaveBeenCalled();
     expect(screen.getByText(/greater than 0/i)).toBeVisible();
@@ -103,7 +107,11 @@ describe('AmountModal', () => {
     fireEvent.change(input, { target: { value: '123.45' } });
     const submit = screen.getByRole('button', { name: /add income/i });
     fireEvent.click(submit);
-    expect(onSubmit).toHaveBeenCalledWith({ amount: 123.45, description: '' });
+    expect(onSubmit).toHaveBeenCalledWith({
+      amount: 123.45,
+      description: '',
+      mode: 'single',
+    });
   });
 
   it('submits valid amount + description', () => {
@@ -115,11 +123,12 @@ describe('AmountModal', () => {
 
     fireEvent.change(amountInput, { target: { value: '10' } });
     fireEvent.change(descriptionInput, { target: { value: 'Paycheck' } });
-    fireEvent.submit(screen.getByRole('form'));
+    fireEvent.submit(document.querySelector('form') as HTMLFormElement);
 
     expect(onSubmit).toHaveBeenCalledWith({
       amount: 10,
       description: 'Paycheck',
+      mode: 'single',
     });
   });
 
@@ -137,7 +146,9 @@ describe('AmountModal', () => {
 
   it('backdrop click closes', () => {
     const { onClose } = setup();
-    const backdrop = screen.getByRole('button', { hidden: true });
+    const backdrop = document.querySelector(
+      'button[aria-hidden="true"][tabindex="-1"]',
+    ) as HTMLButtonElement;
     fireEvent.click(backdrop);
     expect(onClose).toHaveBeenCalled();
   });
@@ -175,7 +186,7 @@ describe('AmountModal', () => {
     };
 
     const { rerender } = setup(undefined, baseProps);
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
 
     // Open
     rerender(<AmountModal {...baseProps} open={true} />);
@@ -190,14 +201,14 @@ describe('AmountModal', () => {
 
     // Introduce an error + different values.
     fireEvent.change(amountInput, { target: { value: '0' } });
-    fireEvent.submit(screen.getByRole('form'));
+    fireEvent.submit(document.querySelector('form') as HTMLFormElement);
     expect(screen.getByText(/greater than 0/i)).toBeVisible();
 
     fireEvent.change(descriptionInput, { target: { value: 'Changed' } });
 
     // Close (component typically unmounts when parent toggles open)
     rerender(<AmountModal {...baseProps} open={false} />);
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
 
     // Re-open should reset to initial props and clear validation UI.
     rerender(<AmountModal {...baseProps} open={true} />);
@@ -223,6 +234,120 @@ describe('AmountModal', () => {
     expect(screen.getByRole('dialog')).toBeVisible();
 
     rerender(<AmountModal {...baseProps} open={false} />);
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  // ── Pill toggle (Single / Multi mode) ──────────────────────────
+
+  it('renders the entry-mode pill toggle with Single selected by default', () => {
+    setup();
+
+    const radiogroup = screen.getByRole('radiogroup', { name: /entry mode/i });
+    expect(radiogroup).toBeVisible();
+
+    const singleBtn = screen.getByRole('radio', { name: /single/i });
+    const multiBtn = screen.getByRole('radio', { name: /multi/i });
+
+    expect(singleBtn).toHaveAttribute('aria-checked', 'true');
+    expect(multiBtn).toHaveAttribute('aria-checked', 'false');
+  });
+
+  it('switches to Multi mode when the Multi pill is clicked', () => {
+    setup();
+
+    const multiBtn = screen.getByRole('radio', { name: /multi/i });
+    fireEvent.click(multiBtn);
+
+    expect(multiBtn).toHaveAttribute('aria-checked', 'true');
+    expect(screen.getByRole('radio', { name: /single/i })).toHaveAttribute(
+      'aria-checked',
+      'false',
+    );
+  });
+
+  it('in Single mode, submit calls onSubmit (modal closes as usual)', () => {
+    const { onSubmit } = setup();
+
+    const input = screen.getByLabelText('Amount', { selector: 'input' });
+    fireEvent.change(input, { target: { value: '50' } });
+    fireEvent.click(screen.getByRole('button', { name: /add income/i }));
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      amount: 50,
+      description: '',
+      mode: 'single',
+    });
+    // In single mode, the component does NOT reset fields — the parent closes the modal.
+    expect(input).toHaveValue(50);
+  });
+
+  it('in Multi mode, submit calls onSubmit then resets fields for the next entry', () => {
+    const { onSubmit } = setup();
+
+    // Switch to multi
+    fireEvent.click(screen.getByRole('radio', { name: /multi/i }));
+
+    const amountInput = screen.getByLabelText('Amount', { selector: 'input' });
+    const descriptionInput = screen.getByLabelText('Description', {
+      selector: 'input',
+    });
+
+    fireEvent.change(amountInput, { target: { value: '25' } });
+    fireEvent.change(descriptionInput, { target: { value: 'Coffee' } });
+    fireEvent.click(screen.getByRole('button', { name: /add income/i }));
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      amount: 25,
+      description: 'Coffee',
+      mode: 'multi',
+    });
+
+    // Fields should be cleared for the next entry
+    expect(amountInput).toHaveValue(null);
+    expect(descriptionInput).toHaveValue('');
+  });
+
+  it('in Multi mode, shows an aria-live assertive announcement after submit', () => {
+    setup();
+
+    fireEvent.click(screen.getByRole('radio', { name: /multi/i }));
+
+    const input = screen.getByLabelText('Amount', { selector: 'input' });
+    fireEvent.change(input, { target: { value: '10' } });
+    fireEvent.click(screen.getByRole('button', { name: /add income/i }));
+
+    const liveRegion = screen.getByRole('status');
+    expect(liveRegion).toHaveAttribute('aria-live', 'assertive');
+    expect(liveRegion).toHaveTextContent(
+      'Amount added. You can proceed to add more.',
+    );
+  });
+
+  it('resets the pill toggle to Single when the modal is re-opened', () => {
+    const baseProps: ComponentProps<typeof AmountModal> = {
+      title: 'Add Income',
+      ctaText: 'Add Income',
+      open: true,
+      onClose: vi.fn(),
+      onSubmit: vi.fn(),
+    };
+
+    const { rerender } = setup(undefined, baseProps);
+
+    // Switch to multi
+    fireEvent.click(screen.getByRole('radio', { name: /multi/i }));
+    expect(screen.getByRole('radio', { name: /multi/i })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+
+    // Close & re-open
+    rerender(<AmountModal {...baseProps} open={false} />);
+    rerender(<AmountModal {...baseProps} open={true} />);
+
+    expect(screen.getByRole('radio', { name: /single/i })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
   });
 });

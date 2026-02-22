@@ -11,9 +11,9 @@ import {
   Scripts,
   ScrollRestoration,
 } from 'react-router';
-import { ThemeProvider } from './context/ThemeProvider';
 
 import type { Route } from './+types/root';
+import { ThemeProvider } from './context/ThemeProvider';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },

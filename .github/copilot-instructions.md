@@ -52,3 +52,4 @@ Do not import _ from React, import specific hooks like useState, useEffect, and 
 Do not import _ from RadixThemes, import specific components like Button, Heading, Text, and TextField as named imports
 In fact, do not ever import \*, always do named imports instead
 Use arrow functions for defining React components, e.g. const MyComponent = () => { ... }, instead of function declarations or function expressions. There is no need to define the type as React.FC, as TypeScript can infer the types automatically. Do, however, create a type for the component props and use that to type the props parameter in the function when there are more than 2 props.
+All changes should pass linting the first time around with no issues that would be flagged by ESLint or Prettier

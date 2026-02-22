@@ -1,8 +1,8 @@
 import { Button, Heading, Text, TextField } from '@radix-ui/themes';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useTheme } from '../context/ThemeProvider';
 
+import { useTheme } from '../context/ThemeProvider';
 import styles from './home.module.scss';
 
 export function meta() {

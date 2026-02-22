@@ -150,5 +150,4 @@ export default defineConfig([
       'sonarjs/cognitive-complexity': ['warn', 17],
     },
   },
-
 ]);

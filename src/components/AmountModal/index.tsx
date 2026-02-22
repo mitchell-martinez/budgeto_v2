@@ -7,7 +7,10 @@ import styles from './styles.module.scss';
 export type AmountModalData = {
   amount: number;
   description: string;
+  mode: EntryMode;
 };
+
+type EntryMode = 'single' | 'multi';
 
 export type AmountModalProps = {
   title: string;
@@ -33,7 +36,10 @@ const AmountModal = ({
   );
   const [description, setDescription] = useState<string>(initialDescription);
   const [error, setError] = useState<string>('');
+  const [mode, setMode] = useState<EntryMode>('single');
+  const [announcement, setAnnouncement] = useState<string>('');
   const dialogRef = useRef<HTMLDivElement>(null);
+  const amountInputRef = useRef<HTMLInputElement>(null);
 
   // Reset on open
   useEffect(() => {
@@ -41,10 +47,11 @@ const AmountModal = ({
       setAmount(initialAmount ? String(initialAmount) : '');
       setDescription(initialDescription);
       setError('');
+      setMode('single');
+      setAnnouncement('');
     }
   }, [open, initialAmount, initialDescription]);
 
-  // Focus trap + ESC to close
   useEffect(() => {
     if (!open) {
       return;
@@ -80,10 +87,6 @@ const AmountModal = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [open, onClose]);
 
-  if (!open) {
-    return null;
-  }
-
   const headingId = 'amount-modal-heading';
   const errorId = 'amount-error';
 
@@ -109,7 +112,19 @@ const AmountModal = ({
       return;
     }
     const parsed = parseFloat(amount);
-    onSubmit({ amount: parsed, description });
+    onSubmit({ amount: parsed, description, mode });
+
+    if (mode === 'multi') {
+      // Reset for next entry
+      setAmount('');
+      setDescription('');
+      setError('');
+      setAnnouncement('Amount added. You can proceed to add more.');
+      // Move focus to the amount input
+      requestAnimationFrame(() => {
+        amountInputRef.current?.focus();
+      });
+    }
   };
 
   const onAmountChange = (value: string) => {
@@ -119,7 +134,7 @@ const AmountModal = ({
     }
   };
 
-  return (
+  return open ? (
     <div
       className={styles.overlay}
       role='dialog'
@@ -139,11 +154,45 @@ const AmountModal = ({
         <h2 id={headingId} className={styles.title}>
           {title}
         </h2>
+
+        <div className={styles.pill} role='radiogroup' aria-label='Entry mode'>
+          <button
+            type='button'
+            role='radio'
+            aria-checked={mode === 'single'}
+            className={`${styles.pillOption} ${mode === 'single' ? styles.pillOptionActive : ''}`}
+            onClick={() => {
+              setMode('single');
+              setAnnouncement('');
+            }}
+          >
+            Single
+          </button>
+          <button
+            type='button'
+            role='radio'
+            aria-checked={mode === 'multi'}
+            className={`${styles.pillOption} ${mode === 'multi' ? styles.pillOptionActive : ''}`}
+            onClick={() => {
+              setMode('multi');
+              setAnnouncement('');
+            }}
+          >
+            Multi
+          </button>
+        </div>
+
+        {/* Accessible live region for multi-mode confirmation */}
+        <div aria-live='assertive' className={styles.srOnly} role='status'>
+          {announcement}
+        </div>
+
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <label className={styles.srOnly} htmlFor='amount-modal-amount'>
             Amount
           </label>
           <input
+            ref={amountInputRef}
             id='amount-modal-amount'
             className={styles.input}
             type='number'
@@ -193,7 +242,7 @@ const AmountModal = ({
         onClick={onClose}
       />
     </div>
-  );
+  ) : null;
 };
 
 export default AmountModal;
