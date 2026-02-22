@@ -5,17 +5,33 @@ type DonutProps = {
   total: number;
   color: string;
   label: string;
+  onClick?: () => void;
 };
 
-const Donut = ({ value, total, color, label }: DonutProps) => {
+const Donut = ({ value, total, color, label, onClick }: DonutProps) => {
   const radius = 140;
   const stroke = 20;
   const normalizedRadius = radius - stroke / 2;
   const circumference = normalizedRadius * 2 * Math.PI;
   const percent = Math.min(100, (value / total) * 100);
   const dash = (percent / 100) * circumference;
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
   return (
-    <div className={styles.donutContainer} aria-label={label}>
+    <div
+      className={`${styles.donutContainer} ${onClick ? styles.clickable : ''}`}
+      aria-label={`${label} – click to view history`}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+    >
       <div className={styles.svgWrap}>
         <svg width={radius * 2} height={radius * 2}>
           <circle
