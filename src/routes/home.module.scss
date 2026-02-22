@@ -159,11 +159,6 @@
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.25);
 }
-.themeToggle:focus-visible {
-  outline: 3px solid #60a5fa;
-  outline-offset: 3px;
-}
-
 .badge {
   display: inline-flex;
   align-items: center;
@@ -298,11 +293,6 @@
   background: #efefef;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
 }
-.notifyMe:focus-visible {
-  outline: 3px solid #60a5fa;
-  outline-offset: 3px;
-}
-
 /* Reduce motion for users that prefer it */
 @media (prefers-reduced-motion: reduce) {
   .marketingRoot,
