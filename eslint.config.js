@@ -104,7 +104,7 @@ export default defineConfig([
             ['^\\u0000'], // side-effect imports
             ['^eslint/config$'], // prioritize eslint config before other packages
             [''], // general packages
-            ['^@(components|models|helpers|utils)/.*$'], // aliases
+            ['^@(components|models|helpers|hooks|utils)/.*$'], // aliases
             ['^\\.'], // relative imports
           ],
         },
