@@ -68,11 +68,6 @@
   border: 1px solid rgba(0, 0, 0, 0.15);
   background: rgba(0, 0, 0, 0.04);
 }
-.closeBtn:focus-visible {
-  outline: 3px solid #60a5fa;
-  outline-offset: 3px;
-}
-
 .form {
   display: grid;
   gap: 0.75rem;

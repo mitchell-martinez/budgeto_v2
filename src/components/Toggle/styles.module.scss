@@ -31,8 +31,6 @@
 }
 
 .dualOption:focus-visible {
-  outline: 3px solid #60a5fa;
-  outline-offset: -2px;
   z-index: 1;
 }
 
@@ -78,11 +76,6 @@
   background: transparent;
   cursor: pointer;
   border-radius: 999px;
-}
-
-.switchButton:focus-visible {
-  outline: 3px solid #60a5fa;
-  outline-offset: 3px;
 }
 
 .switchTrack {

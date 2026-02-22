@@ -11,17 +11,7 @@
   text-align: center;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  outline: none;
   appearance: none;
-}
-
-.button:focus {
-  outline: 2px solid #ffffff; /* dark mode: white ring */
-  outline-offset: 2px;
-}
-.button:focus-visible {
-  outline: 2px solid #ffffff; /* dark mode: white ring */
-  outline-offset: 2px;
 }
 
 /* Light mode variant (global theme class provided by ThemeProvider) */
@@ -29,16 +19,6 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: #111114;
   color: #ffffff;
-}
-
-:global(.light) .button:focus {
-  outline: 2px solid #000000; /* light mode: black ring */
-  outline-offset: 2px;
-}
-
-:global(.light) .button:focus-visible {
-  outline: 2px solid #000000; /* light mode: black ring */
-  outline-offset: 2px;
 }
 
 /* Sizes */

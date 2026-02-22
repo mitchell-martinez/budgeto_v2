@@ -7,13 +7,13 @@ describe('Donut', () => {
     render(
       <Donut value={12345} total={20000} color='#00ff88' label='Income' />,
     );
-    expect(screen.getByLabelText('Income')).toBeInTheDocument();
+    expect(screen.getByLabelText(/Income/)).toBeInTheDocument();
     expect(screen.getByText('$12,345')).toBeInTheDocument();
   });
 
   it('caps percent at 100%', () => {
     render(<Donut value={300} total={100} color='#00ff88' label='Over' />);
-    const circles = screen.getByLabelText('Over').querySelectorAll('circle');
+    const circles = screen.getByLabelText(/Over/).querySelectorAll('circle');
     expect(circles.length).toBeGreaterThan(1);
     const progress = circles[1];
     const dashArray = progress.getAttribute('stroke-dasharray');
@@ -26,7 +26,7 @@ describe('Donut', () => {
 
   it('uses provided color for progress ring', () => {
     render(<Donut value={50} total={100} color='#123456' label='Color' />);
-    const circles = screen.getByLabelText('Color').querySelectorAll('circle');
+    const circles = screen.getByLabelText(/Color/).querySelectorAll('circle');
     const progress = circles[1];
     expect(progress.getAttribute('stroke')).toBe('#123456');
   });
