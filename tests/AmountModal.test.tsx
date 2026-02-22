@@ -103,7 +103,12 @@ describe('AmountModal', () => {
     fireEvent.change(input, { target: { value: '123.45' } });
     const submit = screen.getByRole('button', { name: /add income/i });
     fireEvent.click(submit);
-    expect(onSubmit).toHaveBeenCalledWith({ amount: 123.45, description: '' });
+    expect(onSubmit).toHaveBeenCalledWith({
+      amount: 123.45,
+      description: '',
+      mode: 'single',
+      savingsAmount: 0,
+    });
   });
 
   it('submits valid amount + description', () => {
@@ -120,6 +125,8 @@ describe('AmountModal', () => {
     expect(onSubmit).toHaveBeenCalledWith({
       amount: 10,
       description: 'Paycheck',
+      mode: 'single',
+      savingsAmount: 0,
     });
   });
 

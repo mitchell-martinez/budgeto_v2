@@ -20,14 +20,16 @@ export function meta() {
   ];
 }
 
-type HistoryView = 'income' | 'expense' | null;
+type HistoryView = 'income' | 'expense' | 'savings' | null;
 
 export const Dashboard = () => {
   const {
     incomeEntries,
     expenseEntries,
+    savingsEntries,
     totalIncome,
     totalExpenses,
+    totalSavings,
     addEntry,
     updateEntry,
     deleteEntry,
@@ -46,7 +48,7 @@ export const Dashboard = () => {
       return;
     }
     const index = Math.round(element.scrollLeft / element.clientWidth);
-    setActiveIndex(Math.max(0, Math.min(1, index)));
+    setActiveIndex(Math.max(0, Math.min(2, index)));
   };
 
   const scrollToIndex = (index: number) => {
@@ -57,7 +59,8 @@ export const Dashboard = () => {
     element.scrollTo({ left: index * element.clientWidth, behavior: 'smooth' });
   };
 
-  const leftover = Math.max(0, totalIncome - totalExpenses);
+  const leftover = Math.max(0, totalIncome - totalExpenses - totalSavings);
+  const savedAmount = Math.max(0, totalSavings);
 
   /* ── History panel handlers ──────────────────────────── */
   const handleEdit = useCallback((entry: BudgetEntry) => {
@@ -90,8 +93,16 @@ export const Dashboard = () => {
         ctaText='Add Income'
         open={openIncome}
         onClose={() => setOpenIncome(false)}
-        onSubmit={({ amount, description, mode }) => {
+        savingsToggleLabel='Savings?'
+        onSubmit={({ amount, description, mode, savingsAmount }) => {
           addEntry('income', amount, description);
+          if (savingsAmount > 0) {
+            addEntry(
+              'savings_deposit',
+              savingsAmount,
+              `Savings from: ${description || 'Income'}`,
+            );
+          }
           if (mode === 'single') {
             setOpenIncome(false);
           }
@@ -104,8 +115,16 @@ export const Dashboard = () => {
         ctaText='Add Expenditure'
         open={openExpenditure}
         onClose={() => setOpenExpenditure(false)}
-        onSubmit={({ amount, description, mode }) => {
+        savingsToggleLabel='From Savings?'
+        onSubmit={({ amount, description, mode, savingsAmount }) => {
           addEntry('expense', amount, description);
+          if (savingsAmount > 0) {
+            addEntry(
+              'savings_withdrawal',
+              savingsAmount,
+              `Savings used for: ${description || 'Expense'}`,
+            );
+          }
           if (mode === 'single') {
             setOpenExpenditure(false);
           }
@@ -140,6 +159,14 @@ export const Dashboard = () => {
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
+      <HistoryPanel
+        title='Savings History'
+        entries={savingsEntries}
+        open={historyView === 'savings'}
+        onClose={() => setHistoryView(null)}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
 
       {/* ── Donut swiper ──────────────────────────────────── */}
       <div className={styles.swipeWrap} aria-label='Budget swiper controls'>
@@ -147,15 +174,15 @@ export const Dashboard = () => {
           variant='icon'
           size='sm'
           className={`${styles.arrow} ${styles.left} ${activeIndex === 0 ? styles.arrowHidden : ''}`}
-          onClick={() => scrollToIndex(0)}
-          aria-label='Show spent'
+          onClick={() => scrollToIndex(activeIndex - 1)}
+          aria-label='Previous panel'
           tabIndex={activeIndex === 0 ? -1 : 0}
         >
           &lt;
         </Button>
         <div
           className={styles.swiper}
-          aria-label='Swipe horizontally to view spent and leftover'
+          aria-label='Swipe horizontally to view spent, leftover, and saved'
           ref={swiperRef}
           onScroll={handleScroll}
           aria-live='polite'
@@ -178,14 +205,23 @@ export const Dashboard = () => {
               onClick={() => setHistoryView('income')}
             />
           </section>
+          <section className={styles.swipeCol} aria-label='Saved'>
+            <Donut
+              value={savedAmount}
+              total={totalIncome || 1}
+              color='#facc15'
+              label='Saved'
+              onClick={() => setHistoryView('savings')}
+            />
+          </section>
         </div>
         <Button
           variant='icon'
           size='sm'
-          className={`${styles.arrow} ${styles.right} ${activeIndex === 1 ? styles.arrowHidden : ''}`}
-          onClick={() => scrollToIndex(1)}
-          aria-label='Show leftover'
-          tabIndex={activeIndex === 1 ? -1 : 0}
+          className={`${styles.arrow} ${styles.right} ${activeIndex === 2 ? styles.arrowHidden : ''}`}
+          onClick={() => scrollToIndex(activeIndex + 1)}
+          aria-label='Next panel'
+          tabIndex={activeIndex === 2 ? -1 : 0}
         >
           &gt;
         </Button>

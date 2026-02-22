@@ -111,6 +111,7 @@ describe('AmountModal', () => {
       amount: 123.45,
       description: '',
       mode: 'single',
+      savingsAmount: 0,
     });
   });
 
@@ -129,6 +130,7 @@ describe('AmountModal', () => {
       amount: 10,
       description: 'Paycheck',
       mode: 'single',
+      savingsAmount: 0,
     });
   });
 
@@ -276,6 +278,7 @@ describe('AmountModal', () => {
       amount: 50,
       description: '',
       mode: 'single',
+      savingsAmount: 0,
     });
     // In single mode, the component does NOT reset fields — the parent closes the modal.
     expect(input).toHaveValue(50);
@@ -300,6 +303,7 @@ describe('AmountModal', () => {
       amount: 25,
       description: 'Coffee',
       mode: 'multi',
+      savingsAmount: 0,
     });
 
     // Fields should be cleared for the next entry

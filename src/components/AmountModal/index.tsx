@@ -17,6 +17,7 @@ export type AmountModalData = {
   amount: number;
   description: string;
   mode: EntryMode;
+  savingsAmount: number;
 };
 
 export type AmountModalProps = {
@@ -25,6 +26,7 @@ export type AmountModalProps = {
   open: boolean;
   onClose: () => void;
   onSubmit: (data: AmountModalData) => void;
+  savingsToggleLabel?: string;
   initialAmount?: number;
   initialDescription?: string;
 };
@@ -35,6 +37,7 @@ const AmountModal = ({
   open,
   onClose,
   onSubmit,
+  savingsToggleLabel,
   initialAmount = 0,
   initialDescription = '',
 }: AmountModalProps) => {
@@ -44,6 +47,9 @@ const AmountModal = ({
   const [description, setDescription] = useState<string>(initialDescription);
   const [error, setError] = useState<string>('');
   const [mode, setMode] = useState<EntryMode>('single');
+  const [savingsEnabled, setSavingsEnabled] = useState(false);
+  const [savingsAmount, setSavingsAmount] = useState<string>('');
+  const [savingsError, setSavingsError] = useState<string>('');
   const [announcement, setAnnouncement] = useState<string>('');
   const dialogRef = useRef<HTMLDivElement>(null);
   const amountInputRef = useRef<HTMLInputElement>(null);
@@ -55,6 +61,9 @@ const AmountModal = ({
       setDescription(initialDescription);
       setError('');
       setMode('single');
+      setSavingsEnabled(false);
+      setSavingsAmount('');
+      setSavingsError('');
       setAnnouncement('');
     }
   }, [open, initialAmount, initialDescription]);
@@ -111,6 +120,24 @@ const AmountModal = ({
     return '';
   };
 
+  const validateSavings = (value: string, mainAmount: string) => {
+    const parsed = parseFloat(value);
+    const mainParsed = parseFloat(mainAmount);
+    if (!value) {
+      return 'Savings amount is required';
+    }
+    if (!Number.isFinite(parsed)) {
+      return 'Enter a valid number';
+    }
+    if (parsed <= 0) {
+      return 'Savings amount must be greater than 0';
+    }
+    if (Number.isFinite(mainParsed) && parsed > mainParsed) {
+      return 'Savings cannot exceed the main amount';
+    }
+    return '';
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const err = validate(amount);
@@ -118,14 +145,33 @@ const AmountModal = ({
       setError(err);
       return;
     }
+
+    if (savingsEnabled && savingsToggleLabel) {
+      const savErr = validateSavings(savingsAmount, amount);
+      if (savErr) {
+        setSavingsError(savErr);
+        return;
+      }
+    }
+
     const parsed = parseFloat(amount);
-    onSubmit({ amount: parsed, description, mode });
+    const parsedSavings =
+      savingsEnabled && savingsToggleLabel ? parseFloat(savingsAmount) : 0;
+    onSubmit({
+      amount: parsed,
+      description,
+      mode,
+      savingsAmount: parsedSavings,
+    });
 
     if (mode === 'multi') {
       // Reset for next entry
       setAmount('');
       setDescription('');
       setError('');
+      setSavingsEnabled(false);
+      setSavingsAmount('');
+      setSavingsError('');
       setAnnouncement('Amount added. You can proceed to add more.');
       // Move focus to the amount input
       requestAnimationFrame(() => {
@@ -215,6 +261,58 @@ const AmountModal = ({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+
+          {savingsToggleLabel && (
+            <div className={styles.savingsRow}>
+              <Toggle
+                variant='switch'
+                checked={savingsEnabled}
+                onChange={(checked) => {
+                  setSavingsEnabled(checked);
+                  if (!checked) {
+                    setSavingsAmount('');
+                    setSavingsError('');
+                  }
+                }}
+                label={savingsToggleLabel}
+              />
+              <div
+                className={`${styles.savingsInputWrap} ${!savingsEnabled ? styles.savingsInputHidden : ''}`}
+              >
+                <label className={styles.srOnly} htmlFor='amount-modal-savings'>
+                  Savings amount
+                </label>
+                <input
+                  id='amount-modal-savings'
+                  className={styles.input}
+                  type='number'
+                  inputMode='decimal'
+                  min={0}
+                  step='0.01'
+                  placeholder='How much?'
+                  value={savingsAmount}
+                  onChange={(e) => {
+                    setSavingsAmount(e.target.value);
+                    if (savingsError) {
+                      setSavingsError(validateSavings(e.target.value, amount));
+                    }
+                  }}
+                  aria-invalid={!!savingsError}
+                  aria-describedby={savingsError ? 'savings-error' : undefined}
+                  tabIndex={savingsEnabled ? 0 : -1}
+                />
+                {savingsError && (
+                  <div
+                    id='savings-error'
+                    className={styles.error}
+                    aria-live='polite'
+                  >
+                    {savingsError}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           <Button
             className={styles.cta}
