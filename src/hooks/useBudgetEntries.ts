@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 
-export type BudgetEntryType = 'income' | 'expense';
+export type BudgetEntryType =
+  | 'income'
+  | 'expense'
+  | 'savings_deposit'
+  | 'savings_withdrawal';
 
 export type BudgetEntry = {
   id: string;
@@ -74,16 +78,28 @@ const useBudgetEntries = () => {
 
   const incomeEntries = entries.filter((e) => e.type === 'income');
   const expenseEntries = entries.filter((e) => e.type === 'expense');
+  const savingsEntries = entries.filter(
+    (e) => e.type === 'savings_deposit' || e.type === 'savings_withdrawal',
+  );
 
   const totalIncome = incomeEntries.reduce((sum, e) => sum + e.amount, 0);
   const totalExpenses = expenseEntries.reduce((sum, e) => sum + e.amount, 0);
+  const totalSavingsDeposits = savingsEntries
+    .filter((e) => e.type === 'savings_deposit')
+    .reduce((sum, e) => sum + e.amount, 0);
+  const totalSavingsWithdrawals = savingsEntries
+    .filter((e) => e.type === 'savings_withdrawal')
+    .reduce((sum, e) => sum + e.amount, 0);
+  const totalSavings = totalSavingsDeposits - totalSavingsWithdrawals;
 
   return {
     entries,
     incomeEntries,
     expenseEntries,
+    savingsEntries,
     totalIncome,
     totalExpenses,
+    totalSavings,
     addEntry,
     updateEntry,
     deleteEntry,

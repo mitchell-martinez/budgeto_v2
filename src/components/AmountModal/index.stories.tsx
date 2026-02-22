@@ -96,3 +96,21 @@ export const MultiMode: Story = {
     ctaText: 'Add Income',
   },
 };
+
+export const WithSavingsToggle: Story = {
+  render: (args) => <Wrapper {...args} />,
+  args: {
+    title: 'Add Income',
+    ctaText: 'Add Income',
+    savingsToggleLabel: 'Savings?',
+  },
+};
+
+export const WithFromSavingsToggle: Story = {
+  render: (args) => <Wrapper {...args} />,
+  args: {
+    title: 'Add Expenditure',
+    ctaText: 'Add Expenditure',
+    savingsToggleLabel: 'From Savings?',
+  },
+};
