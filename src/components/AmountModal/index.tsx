@@ -1,16 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 
 import Button from '@components/Button';
+import type { ToggleOption } from '@components/Toggle';
+import Toggle from '@components/Toggle';
 
 import styles from './styles.module.scss';
+
+const ENTRY_MODE_OPTIONS: [ToggleOption<EntryMode>, ToggleOption<EntryMode>] = [
+  { label: 'Single', value: 'single' },
+  { label: 'Multi', value: 'multi' },
+];
+
+type EntryMode = 'single' | 'multi';
 
 export type AmountModalData = {
   amount: number;
   description: string;
   mode: EntryMode;
 };
-
-type EntryMode = 'single' | 'multi';
 
 export type AmountModalProps = {
   title: string;
@@ -155,32 +162,17 @@ const AmountModal = ({
           {title}
         </h2>
 
-        <div className={styles.pill} role='radiogroup' aria-label='Entry mode'>
-          <button
-            type='button'
-            role='radio'
-            aria-checked={mode === 'single'}
-            className={`${styles.pillOption} ${mode === 'single' ? styles.pillOptionActive : ''}`}
-            onClick={() => {
-              setMode('single');
-              setAnnouncement('');
-            }}
-          >
-            Single
-          </button>
-          <button
-            type='button'
-            role='radio'
-            aria-checked={mode === 'multi'}
-            className={`${styles.pillOption} ${mode === 'multi' ? styles.pillOptionActive : ''}`}
-            onClick={() => {
-              setMode('multi');
-              setAnnouncement('');
-            }}
-          >
-            Multi
-          </button>
-        </div>
+        <Toggle
+          variant='dual'
+          options={ENTRY_MODE_OPTIONS}
+          value={mode}
+          onChange={(val) => {
+            setMode(val);
+            setAnnouncement('');
+          }}
+          ariaLabel='Entry mode'
+          className={styles.toggle}
+        />
 
         {/* Accessible live region for multi-mode confirmation */}
         <div aria-live='assertive' className={styles.srOnly} role='status'>

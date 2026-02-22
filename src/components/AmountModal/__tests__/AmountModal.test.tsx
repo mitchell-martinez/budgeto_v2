@@ -237,9 +237,9 @@ describe('AmountModal', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
-  // ── Pill toggle (Single / Multi mode) ──────────────────────────
+  // ── Toggle (Single / Multi mode) ──────────────────────────
 
-  it('renders the entry-mode pill toggle with Single selected by default', () => {
+  it('renders the entry-mode toggle with Single selected by default', () => {
     setup();
 
     const radiogroup = screen.getByRole('radiogroup', { name: /entry mode/i });
@@ -252,7 +252,7 @@ describe('AmountModal', () => {
     expect(multiBtn).toHaveAttribute('aria-checked', 'false');
   });
 
-  it('switches to Multi mode when the Multi pill is clicked', () => {
+  it('switches to Multi mode when the Multi toggle option is clicked', () => {
     setup();
 
     const multiBtn = screen.getByRole('radio', { name: /multi/i });
@@ -323,7 +323,7 @@ describe('AmountModal', () => {
     );
   });
 
-  it('resets the pill toggle to Single when the modal is re-opened', () => {
+  it('resets the toggle to Single when the modal is re-opened', () => {
     const baseProps: ComponentProps<typeof AmountModal> = {
       title: 'Add Income',
       ctaText: 'Add Income',
