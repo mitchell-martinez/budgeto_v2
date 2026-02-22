@@ -1,0 +1,131 @@
+/* ── Dual toggle (two labelled options) ──────────────── */
+
+.dual {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  width: fit-content;
+}
+
+:global(.light) .dual {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.dualOption {
+  padding: 0.45rem 1.2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  color: #a1a1aa;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+  line-height: 1.2;
+}
+
+.dualOption:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+:global(.light) .dualOption {
+  color: #6b7280;
+}
+
+.dualOptionActive {
+  background: #ffffff;
+  color: #0e0e12;
+}
+
+:global(.light) .dualOptionActive {
+  background: #111114;
+  color: #ffffff;
+}
+
+/* ── Switch toggle (on / off) ───────────────────────── */
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.switchLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #f3f3f3;
+  user-select: none;
+}
+
+:global(.light) .switchLabel {
+  color: #111114;
+}
+
+.switchButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 999px;
+}
+
+.switchButton:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 3px;
+}
+
+.switchTrack {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  transition: background 0.2s ease;
+}
+
+:global(.light) .switchTrack {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.switchButtonChecked .switchTrack {
+  background: #ffffff;
+}
+
+:global(.light) .switchButtonChecked .switchTrack {
+  background: #111114;
+}
+
+.switchThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f3f3f3;
+  transition: transform 0.2s ease;
+}
+
+:global(.light) .switchThumb {
+  background: #ffffff;
+}
+
+.switchButtonChecked .switchThumb {
+  transform: translateX(20px);
+  background: #0e0e12;
+}
+
+:global(.light) .switchButtonChecked .switchThumb {
+  background: #ffffff;
+}

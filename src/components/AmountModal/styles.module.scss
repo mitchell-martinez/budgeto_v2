@@ -43,6 +43,12 @@
   text-align: center;
 }
 
+/* ── Toggle positioning ──────────────────────────────── */
+.toggle {
+  margin-bottom: 0.75rem;
+  margin-inline: auto;
+}
+
 .closeBtn {
   position: absolute;
   top: 0.6rem;

@@ -1,12 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 
 import Button from '@components/Button';
+import type { ToggleOption } from '@components/Toggle';
+import Toggle from '@components/Toggle';
 
 import styles from './styles.module.scss';
+
+const ENTRY_MODE_OPTIONS: [ToggleOption<EntryMode>, ToggleOption<EntryMode>] = [
+  { label: 'Single', value: 'single' },
+  { label: 'Multi', value: 'multi' },
+];
+
+type EntryMode = 'single' | 'multi';
 
 export type AmountModalData = {
   amount: number;
   description: string;
+  mode: EntryMode;
 };
 
 export type AmountModalProps = {
@@ -33,7 +43,10 @@ const AmountModal = ({
   );
   const [description, setDescription] = useState<string>(initialDescription);
   const [error, setError] = useState<string>('');
+  const [mode, setMode] = useState<EntryMode>('single');
+  const [announcement, setAnnouncement] = useState<string>('');
   const dialogRef = useRef<HTMLDivElement>(null);
+  const amountInputRef = useRef<HTMLInputElement>(null);
 
   // Reset on open
   useEffect(() => {
@@ -41,6 +54,8 @@ const AmountModal = ({
       setAmount(initialAmount ? String(initialAmount) : '');
       setDescription(initialDescription);
       setError('');
+      setMode('single');
+      setAnnouncement('');
     }
   }, [open, initialAmount, initialDescription]);
 
@@ -104,7 +119,19 @@ const AmountModal = ({
       return;
     }
     const parsed = parseFloat(amount);
-    onSubmit({ amount: parsed, description });
+    onSubmit({ amount: parsed, description, mode });
+
+    if (mode === 'multi') {
+      // Reset for next entry
+      setAmount('');
+      setDescription('');
+      setError('');
+      setAnnouncement('Amount added. You can proceed to add more.');
+      // Move focus to the amount input
+      requestAnimationFrame(() => {
+        amountInputRef.current?.focus();
+      });
+    }
   };
 
   const onAmountChange = (value: string) => {
@@ -114,7 +141,7 @@ const AmountModal = ({
     }
   };
 
-  return (
+  return open ? (
     <div
       className={styles.overlay}
       role='dialog'
@@ -134,11 +161,30 @@ const AmountModal = ({
         <h2 id={headingId} className={styles.title}>
           {title}
         </h2>
+
+        <Toggle
+          variant='dual'
+          options={ENTRY_MODE_OPTIONS}
+          value={mode}
+          onChange={(val) => {
+            setMode(val);
+            setAnnouncement('');
+          }}
+          ariaLabel='Entry mode'
+          className={styles.toggle}
+        />
+
+        {/* Accessible live region for multi-mode confirmation */}
+        <div aria-live='assertive' className={styles.srOnly} role='status'>
+          {announcement}
+        </div>
+
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <label className={styles.srOnly} htmlFor='amount-modal-amount'>
             Amount
           </label>
           <input
+            ref={amountInputRef}
             id='amount-modal-amount'
             className={styles.input}
             type='number'
@@ -188,7 +234,7 @@ const AmountModal = ({
         onClick={onClose}
       />
     </div>
-  );
+  ) : null;
 };
 
 export default AmountModal;
