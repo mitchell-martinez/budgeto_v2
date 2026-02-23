@@ -2,6 +2,12 @@
 
 Modern, fast, and accessible personal budgeting app built with React Router v7, TypeScript, and SCSS modules. Budgeto focuses on a delightful mobile-first experience with near-instant loads, clear navigation, and strong accessibility — while staying developer-friendly with strict TypeScript, testing, and linting.
 
+## To run locally (Node 20+):
+```bash
+npm install
+npm start
+```
+
 ## Highlights
 
 - **Mobile-first UX:** Optimized for the visible viewport on phones; fluid layouts and responsive typography.
