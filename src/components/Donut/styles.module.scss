@@ -27,12 +27,20 @@
   stroke-width: 20; /* +25% */
 }
 
+:global(.light) .valueHeading {
+  color: #111114;
+}
+
 .donutLabel {
   margin-top: 1.5rem; /* +25% */
   color: #a1a1aa;
   font-size: 1.375rem; /* +25% */
   letter-spacing: 0.01em;
   text-align: center;
+}
+
+:global(.light) .donutLabel {
+  color: #52525b;
 }
 
 .clickable {

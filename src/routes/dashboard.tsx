@@ -1,4 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
+import type { HeadersFunction, ShouldRevalidateFunction } from 'react-router';
+import { data } from 'react-router';
 
 import AmountModal from '@components/AmountModal';
 import Button from '@components/Button';
@@ -19,6 +21,63 @@ export function meta() {
     },
   ];
 }
+
+/**
+ * Server loader — placeholder for future API integration.
+ * Returns an empty entries array; the client hydrates from IndexedDB.
+ */
+export const loader = () => {
+  return data(
+    { entries: [] },
+    {
+      headers: {
+        'Cache-Control': 'private, max-age=0, must-revalidate',
+      },
+    },
+  );
+};
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return {
+    'Cache-Control':
+      loaderHeaders.get('Cache-Control') ??
+      'private, max-age=0, must-revalidate',
+  };
+};
+
+/**
+ * Only revalidate when the URL actually changes — prevents
+ * unnecessary refetches on same-page navigations.
+ */
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  currentUrl,
+  nextUrl,
+}) => {
+  return currentUrl.pathname !== nextUrl.pathname;
+};
+
+/**
+ * Skeleton shown during hydration before client JS takes over.
+ */
+export const HydrateFallback = () => (
+  <main className={styles.dashboard}>
+    <div className={styles.swipeWrap} aria-label='Loading budget data'>
+      <div className={styles.swiper}>
+        <section className={styles.swipeCol}>
+          <div
+            className={styles.skeletonDonut}
+            aria-hidden='true'
+            role='presentation'
+          />
+        </section>
+      </div>
+    </div>
+    <div className={styles.buttonRow}>
+      <div className={styles.skeletonBtn} aria-hidden='true' />
+      <div className={styles.skeletonBtn} aria-hidden='true' />
+    </div>
+  </main>
+);
 
 type HistoryView = 'income' | 'expense' | 'savings' | null;
 

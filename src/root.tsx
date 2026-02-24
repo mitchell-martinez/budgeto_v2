@@ -13,6 +13,7 @@ import {
 } from 'react-router';
 
 import type { Route } from './+types/root';
+import OfflineBanner from './components/OfflineBanner';
 import { ThemeProvider } from './context/ThemeProvider';
 
 export const links: Route.LinksFunction = () => [
@@ -26,7 +27,28 @@ export const links: Route.LinksFunction = () => [
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
   },
+  { rel: 'manifest', href: '/manifest.webmanifest' },
 ];
+
+/**
+ * Blocking inline script that reads the user's theme from localStorage
+ * and sets data-theme on <html> BEFORE first paint, preventing a flash
+ * of the wrong theme during SSR hydration.
+ */
+const themeScript = `
+(function() {
+  try {
+    var t = localStorage.getItem('theme');
+    if (t === 'light' || t === 'dark') {
+      document.documentElement.setAttribute('data-theme', t);
+    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  } catch(e) {}
+})();
+`;
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -34,6 +56,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <Meta />
         <Links />
       </head>
@@ -50,6 +73,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <Outlet />
+      <OfflineBanner />
     </ThemeProvider>
   );
 }

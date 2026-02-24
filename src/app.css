@@ -18,15 +18,59 @@ h3,
 h4,
 h5,
 h6 {
-  color: white;
+  color: inherit;
 }
 
+/* Dark mode — applied via prefers-color-scheme OR data-theme attribute */
 @media (prefers-color-scheme: dark) {
   html,
   body {
     background-color: #16161a;
     color-scheme: dark;
+    color: #e7e7ea;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #ffffff;
+  }
+}
+
+/* Explicit theme overrides via data-theme (set by blocking script) */
+html[data-theme='dark'],
+html[data-theme='dark'] body {
+  background-color: #16161a;
+  color-scheme: dark;
+  color: #e7e7ea;
+}
+
+html[data-theme='dark'] h1,
+html[data-theme='dark'] h2,
+html[data-theme='dark'] h3,
+html[data-theme='dark'] h4,
+html[data-theme='dark'] h5,
+html[data-theme='dark'] h6 {
+  color: #ffffff;
+}
+
+html[data-theme='light'],
+html[data-theme='light'] body {
+  background-color: #ffffff;
+  color-scheme: light;
+  color: #111114;
+}
+
+html[data-theme='light'] h1,
+html[data-theme='light'] h2,
+html[data-theme='light'] h3,
+html[data-theme='light'] h4,
+html[data-theme='light'] h5,
+html[data-theme='light'] h6 {
+  color: #111114;
 }
 
 /* Global focus-visible outlines by theme */

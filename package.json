@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
+    "generate:pwa-assets": "pwa-assets-generator",
+    "build": "pwa-assets-generator && react-router build",
     "lint": "eslint --config ./eslint.config.js \"{src,public,cypress,scripts,.react-router}/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "npm run lint -- --fix",
     "start": "react-router dev",
@@ -21,6 +22,7 @@
     "@radix-ui/themes": "^3.2.1",
     "@react-router/node": "^7.10.1",
     "@react-router/serve": "^7.10.1",
+    "idb": "^8.0.3",
     "isbot": "^5.1.31",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -39,6 +41,7 @@
     "@types/react-dom": "^19.1.9",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
+    "@vite-pwa/assets-generator": "^1.0.2",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
@@ -54,8 +57,13 @@
     "sass": "^1.94.0",
     "typescript": "^5.9.2",
     "vite": "^7.2.7",
+    "vite-plugin-pwa": "^1.2.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "workbox-background-sync": "^7.4.0",
+    "workbox-precaching": "^7.4.0",
+    "workbox-routing": "^7.4.0",
+    "workbox-strategies": "^7.4.0"
   },
   "overrides": {
     "@joshwooding/vite-plugin-react-docgen-typescript": "^0.6.4"

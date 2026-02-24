@@ -1,6 +1,6 @@
 import { Button, Heading, Text, TextField } from '@radix-ui/themes';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router';
 
 import { useTheme } from '../context/ThemeProvider';
 import styles from './home.module.scss';
@@ -16,8 +16,28 @@ export function meta() {
   ];
 }
 
+/**
+ * Skeleton shown during hydration before client JS takes over.
+ */
+export const HydrateFallback = () => (
+  <div className={styles.marketingRoot}>
+    <div className={styles.container}>
+      <section className={styles.hero}>
+        <div className={styles.skeletonBadge} aria-hidden='true' />
+        <div className={styles.skeletonLogo} aria-hidden='true' />
+        <div className={styles.skeletonTitle} aria-hidden='true' />
+        <div className={styles.skeletonSubtitle} aria-hidden='true' />
+      </section>
+      <section className={styles.features} aria-label='Loading features'>
+        <div className={styles.skeletonFeature} aria-hidden='true' />
+        <div className={styles.skeletonFeature} aria-hidden='true' />
+        <div className={styles.skeletonFeature} aria-hidden='true' />
+      </section>
+    </div>
+  </div>
+);
+
 const Home = () => {
-  const navigate = useNavigate();
   const { isLight, toggle } = useTheme();
   const [modalOpen, setModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -135,15 +155,14 @@ const Home = () => {
           </div>
         </section>
 
-        <Button
+        <Link
+          to='/dashboard'
+          prefetch='intent'
           className={styles.notifyMe}
-          size={'4'}
-          type='button'
-          onClick={() => navigate('/dashboard')}
           aria-label='Try Budgeto on the dashboard'
         >
           Try it out
-        </Button>
+        </Link>
       </div>
 
       {/* Modal Dialog */}

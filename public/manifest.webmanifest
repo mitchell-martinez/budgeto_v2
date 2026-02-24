@@ -1,0 +1,33 @@
+{
+  "name": "Budgeto",
+  "short_name": "Budgeto",
+  "description": "The budget app for modern techies. Private, fast, and free.",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#16161a",
+  "background_color": "#16161a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/pwa-64x64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -268,7 +268,10 @@
 }
 
 .notifyMe {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   background: #ffffff;
   color: #0e0e12;
   font-size: 1.15rem;
@@ -315,4 +318,71 @@
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+/* ── Skeleton styles for HydrateFallback ──────────────── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeletonBadge {
+  width: 200px;
+  height: 28px;
+  border-radius: 999px;
+  margin-bottom: 0.9rem;
+  background: linear-gradient(90deg, #1a1a22 25%, #25252f 50%, #1a1a22 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonLogo {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  margin-bottom: 1.25rem;
+  background: linear-gradient(90deg, #1a1a22 25%, #25252f 50%, #1a1a22 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonTitle {
+  width: 240px;
+  height: 48px;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(90deg, #1a1a22 25%, #25252f 50%, #1a1a22 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonSubtitle {
+  width: 320px;
+  max-width: 90%;
+  height: 24px;
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg, #1a1a22 25%, #25252f 50%, #1a1a22 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skeletonFeature {
+  height: 120px;
+  border-radius: 1rem;
+  background: linear-gradient(90deg, #1a1a22 25%, #25252f 50%, #1a1a22 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+:global(.light) .skeletonBadge,
+:global(.light) .skeletonLogo,
+:global(.light) .skeletonTitle,
+:global(.light) .skeletonSubtitle,
+:global(.light) .skeletonFeature {
+  background: linear-gradient(90deg, #e5e5e5 25%, #f0f0f0 50%, #e5e5e5 75%);
+  background-size: 200% 100%;
 }
