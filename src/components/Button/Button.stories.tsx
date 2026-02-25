@@ -9,7 +9,7 @@ const meta: Meta<typeof Button> = {
     layout: 'centered',
   },
   argTypes: {
-    label: { control: 'text' },
+    children: { control: 'text' },
   },
 };
 
@@ -19,12 +19,12 @@ type Story = StoryObj<typeof Button>;
 
 export const Primary: Story = {
   args: {
-    label: 'Click me',
+    children: 'Click me',
   },
 };
 
 export const Disabled: Story = {
   args: {
-    label: 'Disabled',
+    children: 'Disabled',
   },
 };
