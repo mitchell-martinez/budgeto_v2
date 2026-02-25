@@ -11,21 +11,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
-          POSTGRES_DB: budgeto_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - uses: actions/checkout@v4
 
@@ -36,13 +21,7 @@ jobs:
 
       - run: npm ci
       - run: npm run typecheck
-      - run: npm test
-        env:
-          DATABASE_URL: postgresql://test:test@localhost:5432/budgeto_test
-          JWT_SECRET: test-secret-key-that-is-at-least-32-characters
-          CORS_ORIGIN: http://localhost:3000
-          NODE_ENV: test
-          PORT: 4000
+      - run: npm run test:ci
 
   # ── Build image & deploy to VPS ───────────────────────────────────
   deploy:
@@ -80,8 +59,6 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             cd ~/budgeto
-            docker compose pull api
-            docker compose up -d db            # ensure DB is healthy first
-            docker compose run --rm api node dist/db/migrate.js
-            docker compose up -d api
+            docker compose pull frontend
+            docker compose up -d frontend
             docker image prune -f
