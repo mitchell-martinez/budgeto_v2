@@ -1,12 +1,12 @@
 FROM node:22-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN rm package-lock.json && npm install
 
 FROM node:22-alpine AS prod-deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN rm package-lock.json && npm install --omit=dev
 
 FROM deps AS build
 WORKDIR /app
